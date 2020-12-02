@@ -39,24 +39,9 @@ import java.util.Vector;
 	    }
 
 	    public String informe() {
-	    	   
-	    	    String resultat = "Informe de lloguers del client " +
-	    	        getNom() +
-	    	        " (" + getNif() + ")\n";
-
-	    	    for (Lloguer lloguer: lloguers) {      
-	    	        // composa els resultats d'aquest lloguer
-	    	        resultat += "\t" +
-	    	            lloguer.getVehicle().getMarca() +
-	    	            " " +
-	    	            lloguer.getVehicle().getModel() + ": " + (lloguer.quantitat() * 30) + "€" + "\n";
-	    	    }
-
-	    	    // afegeix informació final
-	    		resultat += "Import a pagar: " + importeTotal() + "€\n" + "Punts guanyats: " + bonificacionsTotals() + "\n";
-	    	    return resultat;
+	    	   return composaCapçalera() + composaDetalls() + composaPeu();
 	    	}
-	   
+	    
 		public double importeTotal() {
     	double total = 0;
 
@@ -74,4 +59,29 @@ import java.util.Vector;
 			}
 			return bonificaciones;
 		}
+		 public String composaCapçalera() {
+    	return "Informe de lloguers del client " +
+                getNom() +
+                " (" + getNif() + ")\n";
+    }
+
+    public String composaDetalls() {
+    	String resultat = "";
+    	for (Lloguer lloguer: lloguers) {
+
+            // composa els resultats d'aquest lloguer
+            resultat += "\t" +
+                lloguer.getVehicle().getMarca() +
+                " " +
+                lloguer.getVehicle().getModel() + ": " +
+                (lloguer.quantitat() * 30) + "€" + "\n";            
+        }
+    	return resultat;
+    }
+
+	public String composaPeu() {
+		return "Import a pagar: " + importeTotal() + "€\n" +
+	            "Punts guanyats: " + bonificacionsTotals() + "\n";
+
+	}
 	}
