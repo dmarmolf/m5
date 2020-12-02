@@ -40,7 +40,7 @@ import java.util.Vector;
 
 	    public String informe() {
 	    	   return composaCapçalera() + composaDetalls() + composaPeu();
-	    	}
+	    }
 	    
 		public double importeTotal() {
     	double total = 0;
@@ -63,7 +63,7 @@ import java.util.Vector;
     	return "Informe de lloguers del client " +
                 getNom() +
                 " (" + getNif() + ")\n";
-    }
+        }
 
     public String composaDetalls() {
     	String resultat = "";
@@ -84,4 +84,34 @@ import java.util.Vector;
 	            "Punts guanyats: " + bonificacionsTotals() + "\n";
 
 	}
+	public String informeHTML() {
+    	return composaCapçaleraHTML() + composaDetallsHTML() + composaPeuHTML();
+    }
+
+	public String composaCapçaleraHTML() {
+		return "<h1>Informe de lloguers</h1>" +
+				"<p>Informe de lloguers del client <em>" + getNom() + "</em> (<strong>" + getNif() + "</strong>)</p>";
+    }
+
+	public String composaDetallsHTML() {
+    	String resultat = "<table>" +
+    	"<tr><td><strong>Marca</strong></td>"
+    	+ "<td><strong>Model</strong></td>"
+    	+ "<td><strong>Import</strong></td></tr>";  
+    	for (Lloguer lloguer: lloguers) {
+
+            // composa els resultats d'aquest lloguer
+            resultat += "<tr><td>" +
+                lloguer.getVehicle().getMarca() + "</td><td>" +
+                lloguer.getVehicle().getModel() + "</td><td>"  +
+                (lloguer.quantitat() * 30) + "€" + "</td><td>";            
+        }
+    	return resultat + "</table>";    	
+    }
+
+	public String composaPeuHTML() {		
+		return "<p>Import a pagar: <em>" + importeTotal() + "€</em></p>" +
+				"<p>Punts guanyats: <em>" + bonificacionsTotals() + "</em></p>";
 	}
+
+}
