@@ -39,56 +39,39 @@ import java.util.Vector;
 	    }
 
 	    public String informe() {
-	    	    double total = 0;
-	    	    int bonificacions = 0;
+	    	   
 	    	    String resultat = "Informe de lloguers del client " +
 	    	        getNom() +
 	    	        " (" + getNif() + ")\n";
+
 	    	    for (Lloguer lloguer: lloguers) {      
-	    	        double quantitat = quantitatPerLloguer(lloguer);
-	    	        // afegeix lloguers freqüents
-	    	        bonificacions ++;
-
-	    	        // afegeix bonificació per dos dies de lloguer de Luxe
-	    	        if (lloguer.getVehicle().getCategoria() == Vehicle.LUXE &&
-	    	                lloguer.getDies()>1 ) {
-	    	            bonificacions ++;
-	    	        }
-
 	    	        // composa els resultats d'aquest lloguer
 	    	        resultat += "\t" +
 	    	            lloguer.getVehicle().getMarca() +
 	    	            " " +
-	    	            lloguer.getVehicle().getModel() + ": " +
-	    	            (quantitat * 30) + "€" + "\n";
-	    	        total += quantitat * 30;
+	    	            lloguer.getVehicle().getModel() + ": " + (lloguer.quantitat() * 30) + "€" + "\n";
 	    	    }
 
 	    	    // afegeix informació final
-	    	    resultat += "Import a pagar: " + total + "€\n" +
-	    	        "Punts guanyats: " + bonificacions + "\n";
+	    		resultat += "Import a pagar: " + importeTotal() + "€\n" + "Punts guanyats: " + bonificacionsTotals() + "\n";
 	    	    return resultat;
 	    	}
-	    
-         public double quantitatPerLloguer(Lloguer lloguer) {
-        	double quantitat=0;
-	        switch (lloguer.getVehicle().getCategoria()) {
-	            case Vehicle.BASIC:
-	                quantitat += 3;
-	                if (lloguer.getDies() > 3) {
-	                    quantitat += (lloguer.getDies() - 3) * 1.5;
-	                }
-	                break;
-	            case Vehicle.GENERAL:
-	                quantitat += 4;
-	                if (lloguer.getDies() > 2) {
-	                    quantitat += (lloguer.getDies() - 2) * 2.5;
-	                }
-	                break;
-	            case Vehicle.LUXE:
-	                quantitat += lloguer.getDies() * 6;
-	                break;
-	    }
-        return quantitat;
+	   
+		public double importeTotal() {
+    	double total = 0;
+
+    	for (Lloguer lloguer: lloguers) {
+    		total += lloguer.quantitat() * 30;
+    	}
+    	return total;
+		}
+
+		public int bonificacionsTotals() {
+			int bonificaciones = 0;
+
+			for (Lloguer lloguer: lloguers) {
+				bonificaciones += lloguer.bonifiacions() * 30;
+			}
+			return bonificaciones;
+		}
 	}
-}
